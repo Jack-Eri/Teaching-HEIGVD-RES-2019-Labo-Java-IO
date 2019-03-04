@@ -7,10 +7,8 @@ import ch.heigvd.res.labio.interfaces.IFileExplorer;
 import ch.heigvd.res.labio.interfaces.IFileVisitor;
 import ch.heigvd.res.labio.quotes.QuoteClient;
 import ch.heigvd.res.labio.quotes.Quote;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
+
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.FileUtils;
@@ -128,16 +126,19 @@ public class Application implements IApplication {
     //throw new UnsupportedOperationException("The student has not implemented this method yet.");
 
     String path = WORKSPACE_DIRECTORY + "/";
-    LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
 
     for (String tag : quote.getTags()) {
       path += tag + "/";
-      LOG.info("> " + tag);
     }
+    path += filename;
 
-    File file = new File(path + filename);
+    File file = new File(path);
     file.getParentFile().mkdirs();
     file.createNewFile();
+
+    FileWriter fileWriter = new FileWriter(file);
+    fileWriter.write(quote.getQuote());
+    fileWriter.close();
   }
   
   /**
