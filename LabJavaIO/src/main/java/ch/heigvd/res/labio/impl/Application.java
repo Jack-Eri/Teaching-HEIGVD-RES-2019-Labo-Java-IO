@@ -134,21 +134,19 @@ public class Application implements IApplication {
     }
     path += filename;
 
+    // Create the file
     File file = new File(path);
     file.getParentFile().mkdirs();
-    file.createNewFile();
 
+    // open a stream to the file
     FileOutputStream fileOutputStream = new FileOutputStream(file);
 
+    // Write the quote in the file
     OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, Charsets.UTF_8);
     outputStreamWriter.write(quote.getQuote());
     outputStreamWriter.close();
 
     fileOutputStream.close();
-
-//    FileWriter fileWriter = new FileWriter(file);
-//    fileWriter.write(quote.getQuote());
-//    fileWriter.close();
   }
 
   /**
