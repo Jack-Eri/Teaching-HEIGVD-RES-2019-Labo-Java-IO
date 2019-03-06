@@ -1,7 +1,5 @@
 package ch.heigvd.res.labio.impl.filters;
 
-import com.sun.xml.internal.fastinfoset.util.CharArray;
-
 import java.io.FilterWriter;
 import java.io.IOException;
 import java.io.Writer;
