@@ -11,6 +11,8 @@ import ch.heigvd.res.labio.quotes.Quote;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -136,9 +138,17 @@ public class Application implements IApplication {
     file.getParentFile().mkdirs();
     file.createNewFile();
 
-    FileWriter fileWriter = new FileWriter(file);
-    fileWriter.write(quote.getQuote());
-    fileWriter.close();
+    FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+    OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream, Charsets.UTF_8);
+    outputStreamWriter.write(quote.getQuote());
+    outputStreamWriter.close();
+
+    fileOutputStream.close();
+
+//    FileWriter fileWriter = new FileWriter(file);
+//    fileWriter.write(quote.getQuote());
+//    fileWriter.close();
   }
 
   /**
