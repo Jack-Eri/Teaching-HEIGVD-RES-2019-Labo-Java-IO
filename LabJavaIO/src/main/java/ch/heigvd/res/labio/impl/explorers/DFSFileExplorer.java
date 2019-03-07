@@ -23,12 +23,11 @@ public class DFSFileExplorer implements IFileExplorer {
     // Continue exploration
     if (rootDirectory.isDirectory()) {
 
-      // TODO: ask about file order
       File[] files = rootDirectory.listFiles();
       Arrays.sort(files);
 
-      for (File file : files) {
-        explore(file, visitor);
+      for (int i = 0; i < files.length; ++i) {
+          explore(files[i], visitor);
       }
     }
   }
