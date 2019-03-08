@@ -15,7 +15,7 @@ import java.util.Arrays;
  */
 public class DFSFileExplorer implements IFileExplorer {
 
-  @Override
+  @Override @SuppressWarnings("Duplicates")
   public void explore(File rootDirectory, IFileVisitor visitor) {
 
     visitor.visit(rootDirectory);
@@ -23,11 +23,20 @@ public class DFSFileExplorer implements IFileExplorer {
     // Continue exploration
     if (rootDirectory.isDirectory()) {
 
-      File[] files = rootDirectory.listFiles();
+      // Visits the directories
+      File[] dirs = rootDirectory.listFiles(File::isDirectory);
+      Arrays.sort(dirs);
+
+      for (File dir : dirs) {
+        explore(dir, visitor);
+      }
+
+      // Visits the files
+      File[] files = rootDirectory.listFiles(File::isFile);
       Arrays.sort(files);
 
-      for (int i = 0; i < files.length; ++i) {
-          explore(files[i], visitor);
+      for (File file : files) {
+        explore(file, visitor);
       }
     }
   }
