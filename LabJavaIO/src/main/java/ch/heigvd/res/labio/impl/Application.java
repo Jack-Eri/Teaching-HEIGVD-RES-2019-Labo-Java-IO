@@ -84,12 +84,7 @@ public class Application implements IApplication {
     QuoteClient client = new QuoteClient();
     for (int i = 0; i < numberOfQuotes; i++) {
       Quote quote = client.fetchQuote();
-      /* There is a missing piece here!
-       * As you can see, this method handles the first part of the lab. It uses the web service
-       * client to fetch quotes. We have removed a single line from this method. It is a call to
-       * one method provided by this class, which is responsible for storing the content of the
-       * quote in a text file (and for generating the directories based on the tags).
-       */
+      // store quotes in file
       storeQuote(quote, "quote-" + quote.getValue().getId() + ".utf8");
 
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
@@ -125,16 +120,16 @@ public class Application implements IApplication {
    * @throws IOException
    */
   void storeQuote(Quote quote, String filename) throws IOException {
-    //throw new UnsupportedOperationException("The student has not implemented this method yet.");
 
     String path = WORKSPACE_DIRECTORY + "/";
 
+    // Append the tags to the path
     for (String tag : quote.getTags()) {
       path += tag + "/";
     }
     path += filename;
 
-    // Create the file
+    // Create the file and it's parent directories
     File file = new File(path);
     file.getParentFile().mkdirs();
 
@@ -172,5 +167,4 @@ public class Application implements IApplication {
     IFileExplorer explorer = new DFSFileExplorer();
     explorer.explore(new File(WORKSPACE_DIRECTORY), new CompleteFileTransformer());
   }
-
 }

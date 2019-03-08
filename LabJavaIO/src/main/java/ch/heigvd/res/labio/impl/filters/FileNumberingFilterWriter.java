@@ -28,8 +28,11 @@ public class FileNumberingFilterWriter extends FilterWriter {
   @Override
   public void write(String str, int off, int len) throws IOException {
 
-    int max = Math.min(str.length(), off + len);
-    for (int i = off; i < max; ++i) {
+    if (off < 0 || len < 0 || off + len > str.length()) {
+      throw new IndexOutOfBoundsException();
+    }
+
+    for (int i = off; i < off + len; ++i) {
       write((int) str.charAt(i));
     }
   }
@@ -37,8 +40,11 @@ public class FileNumberingFilterWriter extends FilterWriter {
   @Override
   public void write(char[] cbuf, int off, int len) throws IOException {
 
-    int max = Math.min(cbuf.length, off + len);
-    for (int i = off; i < max; ++i) {
+    if (off < 0 || len < 0 || off + len > cbuf.length) {
+      throw new IndexOutOfBoundsException();
+    }
+
+    for (int i = off; i < off + len; ++i) {
       write((int) cbuf[i]);
     }
   }
@@ -54,11 +60,13 @@ public class FileNumberingFilterWriter extends FilterWriter {
 
     } else {
 
+      // Detects \r\n or \n
       if ((char) c == '\n') {
         out.write(c);
         writeLineNumber();
 
-      } else if (lastChar == '\r' && (char) c != '\n') {
+        // Detects \r
+      } else if (lastChar == '\r') {
         writeLineNumber();
         out.write(c);
 
@@ -70,6 +78,7 @@ public class FileNumberingFilterWriter extends FilterWriter {
     lastChar = (char) c;
   }
 
+  // Increments the line number and writes it
   private void writeLineNumber() throws IOException {
     out.write(++lineNumber + "\t");
   }
